@@ -10,23 +10,15 @@ fi
 
 cat << EOF > /opt/logstash.conf
 input {
-  syslog {
-    type => syslog
-    port => 514
-  }
-  lumberjack {
-    port => 5043
-
-    ssl_certificate => "/opt/certs/logstash-forwarder.crt"
-    ssl_key => "/opt/certs/logstash-forwarder.key"
-
-    type => "$LUMBERJACK_TAG"
+  udp {
+    port => 5228
+    codec => json_lines
   }
   collectd {typesdb => ["/opt/collectd-types.db"]}
 }
 output {
   stdout {
-      debug => true
+      codec => json_lines
   }
 
   elasticsearch {

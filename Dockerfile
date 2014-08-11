@@ -4,7 +4,7 @@
 #
 # VERSION               1.3.3
 
-FROM      debian:sid
+FROM      ubuntu:14.04
 MAINTAINER Deni Bertovic "deni@kset.org"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -22,13 +22,9 @@ RUN wget https://download.elasticsearch.org/logstash/logstash/logstash-1.3.3-fla
 ADD run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
 
-RUN mkdir /opt/certs/
-ADD certs/logstash-forwarder.crt /opt/certs/logstash-forwarder.crt
-ADD certs/logstash-forwarder.key /opt/certs/logstash-forwarder.key
-ADD collectd-types.db /opt/collectd-types.db
-
-EXPOSE 514
+EXPOSE 514/udp
 EXPOSE 5043
+EXPOSE 5228/udp
 EXPOSE 9200
 EXPOSE 9292
 EXPOSE 9300
